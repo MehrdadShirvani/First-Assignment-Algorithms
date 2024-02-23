@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.LinkedHashMap;
 public class Exercises2
 {
 
@@ -71,45 +72,26 @@ public class Exercises2
     public int romanToInt(String text)
     {
         int number = 0;
+        Map<String, Integer> letterValues = new LinkedHashMap<>();
+        letterValues.put("IV",4);
+        letterValues.put("IX",9);
+        letterValues.put("XL",40);
+        letterValues.put("XC",90);
+        letterValues.put("CD",400);
+        letterValues.put("CM",900);
+        letterValues.put("I",1);
+        letterValues.put("V",5);
+        letterValues.put("X",10);
+        letterValues.put("L",50);
+        letterValues.put("C",100);
+        letterValues.put("D",500);
+        letterValues.put("M",1000);
 
-        number += calculatePatternValue(text, "IV", 4);
-        text = text.replace("IV", "");
-
-        number += calculatePatternValue(text, "IX", 9);
-        text = text.replace("IX", "");
-
-        number += calculatePatternValue(text, "XL", 40);
-        text = text.replace("XL", "");
-
-        number += calculatePatternValue(text, "XC", 90);
-        text = text.replace("XC", "");
-
-        number += calculatePatternValue(text, "CD", 400);
-        text = text.replace("CD", "");
-
-        number += calculatePatternValue(text, "CM", 900);
-        text = text.replace("CM", "");
-
-        number += calculatePatternValue(text, "I", 1);
-        text = text.replace("I", "");
-
-        number += calculatePatternValue(text, "V", 5);
-        text = text.replace("V", "");
-
-        number += calculatePatternValue(text, "X", 10);
-        text = text.replace("X", "");
-
-        number += calculatePatternValue(text, "L", 50);
-        text = text.replace("L", "");
-
-        number += calculatePatternValue(text, "C", 100);
-        text = text.replace("C", "");
-
-        number += calculatePatternValue(text, "D", 500);
-        text = text.replace("D", "");
-
-        number += calculatePatternValue(text, "M", 1000);
-        text = text.replace("M", "");
+        for(String key : letterValues.keySet())
+        {
+            number += calculatePatternValue(text, key, letterValues.get(key));
+            text = text.replace(key, "");
+        }
 
         return number;
     }
@@ -124,12 +106,13 @@ public class Exercises2
     List<List<Integer>> result = new ArrayList<>();
     public void GetOne(List<Integer> numberPools, List<Integer> theCurrentList)
     {
-        if(numberPools.size() == 0)
+        if(numberPools.isEmpty())
         {
             result.add(theCurrentList);
         }
         for (int i = 0; i < numberPools.size(); i++)
         {
+            //It's important not to change numberPools (because we're in the loop and that we don't want it to change for each iteration) or theCurrentList.
             ArrayList<Integer> newCurrentList = new ArrayList<>(theCurrentList);
             newCurrentList.add(numberPools.get(i));
             ArrayList<Integer> newNumberPool = new ArrayList<>(numberPools);
@@ -146,7 +129,7 @@ public class Exercises2
         {
             baseList.add(num);
         }
-        GetOne(baseList, new ArrayList<Integer>());
+        GetOne(baseList, new ArrayList<>());
         return result;
     }
 
